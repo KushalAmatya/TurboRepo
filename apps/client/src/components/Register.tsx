@@ -2,6 +2,8 @@ import { NavLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User, userSchema } from "../schema/userSchema";
+import axios from "axios";
+
 export const Register = () => {
   const {
     register,
@@ -11,9 +13,11 @@ export const Register = () => {
     resolver: zodResolver(userSchema),
   });
   const onSubmit = (data: any) => {
-    console.log(data);
+    const response = axios.post("http://localhost:3000/register", data);
+    console.log(response.then((res) => console.log(res.data)));
   };
   console.log(errors);
+
   return (
     <div className="flex h-[100vh] w-[100vw] flex-col items-center justify-center bg-gradient-to-r from-slate-800 to-slate-950 text-white">
       <div className="card-wrapper h-[500px] w-[400px] flex items-center justify-center">

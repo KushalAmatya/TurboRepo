@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginUser, loginUserSchema } from "../schema/userSchema";
+import axios from "axios";
 
 export const Login = () => {
   const {
@@ -12,7 +13,8 @@ export const Login = () => {
     resolver: zodResolver(loginUserSchema),
   });
   const handleLogin = (data: any) => {
-    console.log(data);
+    const response = axios.post("http://localhost:3000/login", data);
+    console.log(response.then((res) => console.log(res.data)));
   };
   return (
     <div className="flex h-[100vh] w-[100vw] flex-col items-center justify-center bg-gradient-to-r from-slate-800 to-slate-950 text-white">
