@@ -1,10 +1,13 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User, userSchema } from "../schema/userSchema";
 import axios from "axios";
+import { useEffect } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 export const Register = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -12,9 +15,61 @@ export const Register = () => {
   } = useForm<User>({
     resolver: zodResolver(userSchema),
   });
-  const onSubmit = (data: any) => {
-    const response = axios.post("http://localhost:3000/register", data);
-    console.log(response.then((res) => console.log(res.data)));
+  useEffect(() => {
+    if (errors.name) {
+      toast.error(errors.name.message || "Name is required", {
+        duration: 4000,
+        position: "bottom-right",
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+          width: "300px",
+        },
+      });
+    }
+    if (errors.email) {
+      toast.error(errors.email.message || "Email is required", {
+        duration: 4000,
+        position: "bottom-right",
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+          width: "300px",
+        },
+      });
+    }
+    if (errors.password) {
+      toast.error("Password is required and should be minimum 6 characters", {
+        duration: 4000,
+        position: "bottom-right",
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+          width: "300px",
+        },
+      });
+    }
+  }, [errors]);
+  const onSubmit = async (data: any) => {
+    try {
+      const response = await axios.post("http://localhost:3000/register", data);
+      if (response.status === 200) {
+        toast.success("Registered successfully");
+        console.log(response.data);
+        // setTimeout(() => {
+        navigate("/login");
+        // }, 2000);
+      }
+    } catch (error: any) {
+      if (error.response && error.response.status === 400) {
+        toast.error("User already exists");
+      } else {
+        toast.error("Registration failed");
+      }
+    }
   };
   console.log(errors);
 
@@ -34,28 +89,19 @@ export const Register = () => {
                 className="w-[300px] h-10 bg-slate-800 border-2 border-white rounded-lg text-white p-2 mt-4"
               />
 
-              {errors?.name && (
-                <p className="text-red-500 mt-1">{errors.name.message}</p>
-              )}
-
               <input
                 type="text"
                 {...register("email")}
                 placeholder="Email"
                 className="w-[300px] h-10 bg-slate-800 border-2 border-white rounded-lg text-white p-2 mt-4"
               />
-              {errors?.email && (
-                <p className="text-red-500 mt-1">{errors.email.message}</p>
-              )}
+
               <input
                 type="password"
                 {...register("password")}
                 placeholder="Password"
                 className="w-[300px] h-10 bg-slate-800 border-2 border-white rounded-lg text-white p-2 mt-4"
               />
-              {errors?.password && (
-                <p className="text-red-500 mt-1">{errors.password.message}</p>
-              )}
             </div>
             <div className="flex flex-col items-center gap-2">
               <button className="w-[300px] h-10 bg-slate-800 border-2 border-white rounded-lg text-white p-2 mt-4 hover:border-slate-900 hover:bg-slate-500 transition-colors duration-200">
@@ -71,6 +117,7 @@ export const Register = () => {
           </div>
         </form>
       </div>
+      <Toaster />
     </div>
   );
 };

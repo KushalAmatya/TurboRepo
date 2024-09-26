@@ -1,7 +1,11 @@
+import { Toaster } from "react-hot-toast";
+import { Outlet } from "react-router-dom";
+
 function App() {
   return (
     <>
-      <div>This is Home Page</div>
+      <Toaster position="top-center" />
+      <Outlet />
     </>
   );
 }
