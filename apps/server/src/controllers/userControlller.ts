@@ -8,6 +8,7 @@ const userLogin = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   try {
     const existingUser = await User.findOne({ email });
+    const userRole = existingUser?.isAdmin;
     if (!existingUser) {
       return res.status(404).json({ message: "User does not exist" });
     }
@@ -25,7 +26,7 @@ const userLogin = async (req: Request, res: Response) => {
 
     console.log(authToken);
 
-    res.json({ authToken });
+    res.json({ authToken, userRole });
   } catch (err) {
     return res.status(500).json(err);
   }

@@ -4,6 +4,7 @@ import helmet from "helmet";
 import cors from "cors";
 import mongoose from "mongoose";
 import { userRouter } from "./routes/user.routes";
+import { appRouter } from "./routes/app.routes";
 dotenv.config();
 const app = express();
 app.use(
@@ -14,6 +15,7 @@ app.use(
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use("/", appRouter);
 app.use("/", userRouter);
 const PORT = process.env.PORT || 8080;
 
