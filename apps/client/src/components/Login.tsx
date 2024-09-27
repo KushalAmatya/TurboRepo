@@ -6,9 +6,12 @@ import toast, { Toaster } from "react-hot-toast";
 import { NavLink, useNavigate } from "react-router-dom";
 import Routepick from "./Routepick";
 import { LoginUser, loginUserSchema } from "../schema/userSchema";
+import { authStore } from "../utils/authStore";
 
 export const Login = () => {
   const [showDialog, setShowDialog] = useState(false);
+  const setIsAdmin = authStore((state) => state.setIsAdmin);
+
   const navigate = useNavigate();
   const {
     register,
@@ -53,6 +56,7 @@ export const Login = () => {
         localStorage.setItem("authToken", response.data.authToken);
 
         if (response.data.userRole === true) {
+          setIsAdmin(true);
           setShowDialog(true);
         } else {
           navigate("/home");
