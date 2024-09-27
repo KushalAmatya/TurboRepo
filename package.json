@@ -6,8 +6,9 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "server": "pnpm --filter @repo/server",
-    "client": "pnpm --filter @repo/client"
+    "api": "pnpm --filter @repo/server",
+    "client": "pnpm --filter @repo/client",
+    "project":"pnpm --filter @repo/client --filter @repo/api"
   },
   "devDependencies": {
     "prettier": "^3.2.5",

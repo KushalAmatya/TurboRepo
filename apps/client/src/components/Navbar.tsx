@@ -1,53 +1,59 @@
-import { NavLink } from "react-router-dom";
+import { Toggle } from "@radix-ui/react-toggle";
+// import { Avatar } from "@radix-ui/react-avatar";
+import { Link } from "react-router-dom";
+import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
+import { themeStore } from "../utils/themeStore";
 
 export const Navbar = () => {
+  const { theme, setTheme } = themeStore((state) => state);
+
   return (
-    <>
-      <div>
-        <nav className="flex items-center justify-between flex-wrap bg-gradient-to-r from-slate-800 to-slate-950 p-6">
-          <div className="flex items-center flex-shrink-0 text-white mr-6">
-            <span className="font-semibold text-xl tracking-tight">logo</span>
-          </div>
-          <div className="block lg:hidden">
-            <button className="flex items-center px-3 py-2 border rounded text-white border-white hover:text-white hover:border-white">
-              <svg
-                className="fill-current h-3 w-3"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <title>Menu</title>
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M2 5a1 1 0 011-1h14a1 1 0 110 2H3a1 1 0 01-1-1zm0 6a1 1 0 011-1h14a1 1 0 110 2H3a1 1 0 01-1-1zm0 6a1 1 0 011-1h14a1 1 0 110 2H3a1 1 0 01-1-1z"
-                ></path>
-              </svg>
-            </button>
-          </div>
-          <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
-            <div className="text-sm lg:flex-grow">
-              <NavLink
-                to="/"
-                className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4"
-              >
-                Home
-              </NavLink>
-              <NavLink
-                to="/register"
-                className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4"
-              >
-                Register
-              </NavLink>
-              <NavLink
-                to="/login"
-                className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white"
-              >
-                Login
-              </NavLink>
-            </div>
-          </div>
-        </nav>
+    <nav
+      className={
+        "fixed top-0 left-0 right-0 z-50 w-full p-4 transition-all bg-gray-1 text-slate-12"
+      }
+    >
+      <div className="container mx-auto flex justify-between items-center">
+        <div className="flex items-center space-x-4">
+          <Link
+            to="/"
+            className={
+              "text-2xl font-bold tracking-wider hover:text-indigo-4 transition-colors"
+            }
+          >
+            logo
+          </Link>
+        </div>
+
+        <div className="flex space-x-6 items-center">
+          <Link
+            to="/features"
+            className="hover:text-indigo-4 transition-colors"
+          >
+            Features
+          </Link>
+          <Link to="/pricing" className="hover:text-indigo-4 transition-colors">
+            Pricing
+          </Link>
+          <Link to="/about" className="hover:text-indigo-4 transition-colors">
+            About
+          </Link>
+        </div>
+
+        <div className="flex items-center space-x-6">
+          <Toggle
+            pressed={theme}
+            onPressedChange={setTheme}
+            className={
+              "p-2 rounded-full  text-gray-12 bg-gray-1 hover:bg-indigo-4 transition-all"
+            }
+          >
+            {theme ? <MoonIcon /> : <SunIcon />}
+          </Toggle>
+
+          <div></div>
+        </div>
       </div>
-    </>
+    </nav>
   );
 };

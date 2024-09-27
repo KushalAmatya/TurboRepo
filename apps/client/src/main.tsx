@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Login } from "./components/Login.tsx";
 import { Register } from "./components/Register.tsx";
 import { Landing } from "./components/Landing.tsx";
+import { Adminpanel } from "./components/Adminpanel.tsx";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: "home",
         element: <Landing />,
+      },
+      {
+        path: "admin",
+        element: <Adminpanel />,
       },
     ],
   },

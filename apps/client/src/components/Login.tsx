@@ -1,12 +1,14 @@
+import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
-import { LoginUser, loginUserSchema } from "../schema/userSchema";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { NavLink, useNavigate } from "react-router-dom";
+import Routepick from "./Routepick";
+import { LoginUser, loginUserSchema } from "../schema/userSchema";
 
 export const Login = () => {
+  const [showDialog, setShowDialog] = useState(false);
   const navigate = useNavigate();
   const {
     register,
@@ -48,14 +50,16 @@ export const Login = () => {
       const response = await axios.post("http://localhost:3000/login", data);
       if (response.status === 200) {
         toast.success("Logged in successfully");
-        console.log(response.data);
         localStorage.setItem("authToken", response.data.authToken);
-        // setTimeout(() => {
-        navigate("/home");
-        // }, 2000);
+
+        if (response.data.userRole === true) {
+          setShowDialog(true);
+        } else {
+          navigate("/home");
+        }
       }
     } catch (error) {
-      toast.error("Login failed");
+      toast.error("Invalid credentials");
       console.error("Login error:", error);
     }
   };
@@ -65,7 +69,7 @@ export const Login = () => {
       <div className="card-wrapper h-[500px] w-[400px] flex items-center justify-center">
         <form onSubmit={handleSubmit(handleLogin)}>
           <div className="card-content flex flex-col items-center justify-center text-xs gap-5">
-            <p className="text-5xl font-luckiestguy text-white animate-pulse ">
+            <p className="text-5xl font-luckiestguy text-white animate-pulse">
               Login
             </p>
             <div className="flex flex-col items-center justify-center">
@@ -75,7 +79,6 @@ export const Login = () => {
                 placeholder="Email"
                 className="w-[300px] h-10 bg-slate-800 border-2 border-white rounded-lg text-white p-2 mt-4"
               />
-
               <input
                 type="password"
                 {...register("password")}
@@ -98,6 +101,8 @@ export const Login = () => {
         </form>
       </div>
       <Toaster />
+
+      {showDialog && <Routepick />}
     </div>
   );
 };
