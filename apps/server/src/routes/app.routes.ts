@@ -1,9 +1,10 @@
 import express from "express";
-import { addProject } from "../controllers/appController";
+import { addProject, deleteUser, getUsers } from "../controllers/appController";
 import { validateData } from "../middleware/typeValidationMiddleware";
 import { projectSchema } from "../schema/appSchema";
 import multer from "multer";
 import { isAuth } from "../middleware/isAuthMiddleware";
+import { NextFunction } from "express";
 const appRouter = express.Router();
 
 const storage = multer({
@@ -20,10 +21,12 @@ const storage = multer({
 });
 appRouter.post(
   "/addproject",
-  validateData(projectSchema),
   storage.single("projectImage"),
-  isAuth,
+  validateData(projectSchema),
   addProject
 );
+
+appRouter.delete("/deleteuser/:id", isAuth, deleteUser);
+appRouter.get("/getusers", getUsers);
 
 export { appRouter };
