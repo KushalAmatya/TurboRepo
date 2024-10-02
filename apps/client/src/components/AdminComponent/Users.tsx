@@ -7,6 +7,7 @@ import {
 } from "@tanstack/react-table";
 import { useUserStore } from "../../utils/userStore";
 import * as Dialog from "@radix-ui/react-dialog";
+import { useEffect } from "react";
 
 type UserType = {
   _id: number;
@@ -15,95 +16,145 @@ type UserType = {
   name: string;
 };
 
-const columnHelper = createColumnHelper<UserType>();
-
-const columns = [
-  columnHelper.accessor("name", {
-    header: "Name",
-    cell: (info) => <div>{info.getValue()}</div>,
-  }),
-  columnHelper.accessor("_id", {
-    header: "ID",
-    cell: (info) => <div>{info.row.original._id}</div>,
-  }),
-  columnHelper.accessor("email", {
-    header: "Email",
-    cell: (info) => <div>{info.getValue()}</div>,
-  }),
-  columnHelper.accessor("isAdmin", {
-    header: "IsAdmin",
-    cell: (info) => (
-      <button
-        className={`capitalize rounded-md py-2 px-3 ${info.row.original.isAdmin ? "bg-indigo-4" : "bg-slate-4"}`}
-      >
-        {info.row.original.isAdmin.toString()}
-      </button>
-    ),
-  }),
-  columnHelper.display({
-    header: "Actions",
-    cell: (info) => {
-      const userId = info.row.original._id;
-
-      return (
-        <Dialog.Root>
-          <Dialog.Trigger asChild>
-            <button
-              className="bg-red-11 text-mauve-12 px-3 py-1 rounded disabled:bg-red-5"
-              disabled={info.row.original.isAdmin}
-            >
-              Delete
-            </button>
-          </Dialog.Trigger>
-
-          <Dialog.Portal>
-            <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
-            <Dialog.Content className="fixed top-1/2 left-1/2 bg-gray-12 text-slate-1 p-6 rounded shadow-md transform -translate-x-1/2 -translate-y-1/2">
-              <Dialog.Title className="text-lg font-bold">
-                Confirm Deletion
-              </Dialog.Title>
-              <Dialog.Description className="mt-2">
-                Are you sure you want to delete this user? This action cannot be
-                undone.
-              </Dialog.Description>
-              <div className="mt-4 flex justify-end">
-                <Dialog.Close asChild>
-                  <button className="mr-2 px-4 py-2 bg-gray-300 rounded text-slate-12">
-                    Cancel
-                  </button>
-                </Dialog.Close>
-                <button
-                  className="px-4 py-2 bg-red-500 text-white rounded"
-                  onClick={async () => {
-                    const token = localStorage.getItem("authToken");
-                    const bearerToken = `Bearer ${token}`;
-                    try {
-                      await API.delete(`/deleteuser/${userId}`, {
-                        headers: {
-                          Authorization: bearerToken,
-                        },
-                      });
-                      console.log("User deleted");
-                    } catch (error) {
-                      console.error("Error deleting user:", error);
-                    }
-                  }}
-                >
-                  Confirm
-                </button>
-              </div>
-            </Dialog.Content>
-          </Dialog.Portal>
-        </Dialog.Root>
-      );
-    },
-  }),
-];
-
 export const Users = () => {
+  const token = localStorage.getItem("authToken");
   const { fetchUsers, users } = useUserStore();
-  fetchUsers();
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+  const columnHelper = createColumnHelper<UserType>();
 
+  const columns = [
+    columnHelper.accessor("name", {
+      header: "Name",
+      cell: (info) => <div>{info.getValue()}</div>,
+    }),
+    columnHelper.accessor("_id", {
+      header: "ID",
+      cell: (info) => <div>{info.row.original._id}</div>,
+    }),
+    columnHelper.accessor("email", {
+      header: "Email",
+      cell: (info) => <div>{info.getValue()}</div>,
+    }),
+    columnHelper.accessor("isAdmin", {
+      header: "IsAdmin",
+      cell: (info) => {
+        const userId = info.row.original._id;
+        return (
+          <Dialog.Root>
+            <Dialog.Trigger asChild>
+              <button
+                className="bg-red-11 text-mauve-12 px-3 py-1 rounded disabled:bg-red-5"
+                disabled={info.row.original.isAdmin}
+              >
+                {info.row.original.isAdmin.toString()}
+              </button>
+            </Dialog.Trigger>
+
+            <Dialog.Portal>
+              <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
+              <Dialog.Content className="fixed top-1/2 left-1/2 bg-gray-12 text-slate-1 p-6 rounded shadow-md transform -translate-x-1/2 -translate-y-1/2">
+                <Dialog.Title className="text-lg font-bold">
+                  Confirm Admin Conversion
+                </Dialog.Title>
+                <Dialog.Description className="mt-2">
+                  Are you sure you want to convert this user to admin? This
+                  action cannot be undone.
+                </Dialog.Description>
+                <div className="mt-4 flex justify-end">
+                  <Dialog.Close asChild>
+                    <button className="mr-2 px-4 py-2 bg-gray-300 rounded text-slate-12">
+                      Cancel
+                    </button>
+                  </Dialog.Close>
+                  <button
+                    className="px-4 py-2 bg-red-500 text-white rounded"
+                    onClick={async () => {
+                      try {
+                        await API.patch(
+                          `/updateadmin/${userId}`,
+                          {},
+                          {
+                            headers: {
+                              Authorization: token,
+                            },
+                          }
+                        );
+                        console.log("User deleted");
+                        fetchUsers();
+                      } catch (error) {
+                        console.error("Error deleting user:", error);
+                      }
+                    }}
+                  >
+                    Confirm
+                  </button>
+                </div>
+              </Dialog.Content>
+            </Dialog.Portal>
+          </Dialog.Root>
+        );
+      },
+    }),
+    columnHelper.display({
+      header: "Actions",
+      cell: (info) => {
+        const userId = info.row.original._id;
+
+        return (
+          <Dialog.Root>
+            <Dialog.Trigger asChild>
+              <button
+                className="bg-red-11 text-mauve-12 px-3 py-1 rounded disabled:bg-red-5"
+                disabled={info.row.original.isAdmin}
+              >
+                Delete
+              </button>
+            </Dialog.Trigger>
+
+            <Dialog.Portal>
+              <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
+              <Dialog.Content className="fixed top-1/2 left-1/2 bg-gray-12 text-slate-1 p-6 rounded shadow-md transform -translate-x-1/2 -translate-y-1/2">
+                <Dialog.Title className="text-lg font-bold">
+                  Confirm Deletion
+                </Dialog.Title>
+                <Dialog.Description className="mt-2">
+                  Are you sure you want to delete this user? This action cannot
+                  be undone.
+                </Dialog.Description>
+                <div className="mt-4 flex justify-end">
+                  <Dialog.Close asChild>
+                    <button className="mr-2 px-4 py-2 bg-gray-300 rounded text-slate-12">
+                      Cancel
+                    </button>
+                  </Dialog.Close>
+                  <button
+                    className="px-4 py-2 bg-red-500 text-white rounded"
+                    onClick={async () => {
+                      try {
+                        await API.delete(`/deleteuser/${userId}`, {
+                          headers: {
+                            Authorization: token,
+                          },
+                        });
+                        console.log("User deleted");
+                        fetchUsers();
+                      } catch (error) {
+                        console.error("Error deleting user:", error);
+                      }
+                    }}
+                  >
+                    Confirm
+                  </button>
+                </div>
+              </Dialog.Content>
+            </Dialog.Portal>
+          </Dialog.Root>
+        );
+      },
+    }),
+  ];
   const table = useReactTable({
     data: users,
     columns,

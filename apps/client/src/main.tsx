@@ -1,7 +1,11 @@
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+} from "react-router-dom";
 import { Login } from "./components/Login.tsx";
 import { Register } from "./components/Register.tsx";
 import { Landing } from "./components/Landing.tsx";
@@ -13,6 +17,10 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
+      {
+        path: "/",
+        element: <Navigate to="/home" replace={true} />, // Redirect to /home
+      },
       {
         path: "login",
         element: <Login />,

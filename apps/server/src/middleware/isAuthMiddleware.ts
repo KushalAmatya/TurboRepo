@@ -11,7 +11,9 @@ export const isAuth = async (
   next: NextFunction
 ) => {
   try {
-    const token = req.header("Authorization")?.slice(7);
+    const token = req.header("Authorization");
+    console.log("hshsh", token);
+
     if (!token) {
       return res.status(401).send("Please authenticate");
     }
@@ -24,6 +26,6 @@ export const isAuth = async (
 
     next();
   } catch (err) {
-    res.status(401).send("Please authenticate");
+    res.status(401).send(err.message);
   }
 };

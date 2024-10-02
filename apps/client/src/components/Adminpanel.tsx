@@ -88,7 +88,7 @@ export const Adminpanel = () => {
 
   return (
     <div
-      className={`flex transition-colors duration-200 text-mauve-12 ${
+      className={`flex transition-colors duration-200 text-mauve-12 max-h-screen overflow-y-hidden ${
         theme ? "dark" : ""
       }`}
     >
