@@ -11,6 +11,7 @@ const app = express();
 app.use(
   helmet({
     contentSecurityPolicy: false,
+    crossOriginResourcePolicy: false,
   })
 );
 const corsOptions = {
@@ -23,7 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/", appRouter);
 app.use("/", userRouter);
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "../public")));
 
 const PORT = process.env.PORT || 8080;
 

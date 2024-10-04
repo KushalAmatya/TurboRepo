@@ -21,7 +21,7 @@ appRouter.post(
 );
 appRouter.get("/getprojects", isAuth, getProjects);
 
-appRouter.get("/getusers", getUsers);
+appRouter.get("/getusers", getUsers, isAuth);
 appRouter.delete("/deleteuser/:id", isAuth, deleteUser);
 appRouter.patch("/updateadmin/:id", isAuth, updateAdmin);
 export { appRouter };

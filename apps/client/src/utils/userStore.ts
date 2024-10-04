@@ -17,7 +17,11 @@ export const useUserStore = create<UserStore>((set, get) => ({
   setUsers: (users) => set({ users }),
   fetchUsers: async () => {
     try {
-      const response = await API.get("/getusers");
+      const response = await API.get("/getusers", {
+        headers: {
+          Authorization: localStorage.getItem("authToken"),
+        },
+      });
       get().setUsers(response.data);
     } catch (error) {
       console.error("Error fetching users:", error);

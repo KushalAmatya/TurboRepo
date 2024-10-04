@@ -2,7 +2,7 @@ import multer from "multer";
 import path from "path";
 
 const storage = multer({
-  dest: "uploads/",
+  dest: "public/",
   limits: {
     fileSize: 1000000,
   },
@@ -14,7 +14,7 @@ const storage = multer({
   },
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, "uploads/");
+      cb(null, "public/");
     },
     filename: (req, file, cb) => {
       const ext = path.extname(file.originalname);

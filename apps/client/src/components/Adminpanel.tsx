@@ -88,16 +88,15 @@ export const Adminpanel = () => {
 
   return (
     <div
-      className={`flex transition-colors duration-200 text-mauve-12 max-h-screen overflow-y-hidden ${
-        theme ? "dark" : ""
-      }`}
+      className={`flex transition-colors duration-200 text-mauve-12 ${theme ? "dark" : ""}`}
     >
       <Sidebar items={sidebarItems} onItemSelected={setSelectedItem} />
 
-      <div className="flex-1 flex flex-col bg-mauve-2 min-h-screen">
-        <Header theme={theme} setTheme={setTheme} />
-
-        <MainContent selectedItem={selectedItem} />
+      <div className="flex-1 flex flex-col bg-mauve-2 min-h-screen h-screen overflow-hidden">
+        <div className="flex-1 flex flex-col overflow-y-auto">
+          <Header theme={theme} setTheme={setTheme} />
+          <MainContent selectedItem={selectedItem} />
+        </div>
       </div>
     </div>
   );
