@@ -14,7 +14,7 @@ const Sidebar = ({
   onItemSelected: (item: string) => void;
 }) => {
   return (
-    <aside className="flex flex-col gap-4 items-center justify-start w-[300px] h-screen bg-slate-12 text-mauve-1 py-10">
+    <aside className=" sm:flex hidden flex-col gap-4 items-center justify-start w-[300px] h-screen bg-slate-12 text-mauve-1 py-10">
       {items.map((item) => (
         <button
           key={item}

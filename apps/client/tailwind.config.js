@@ -27,9 +27,17 @@ export default {
           "100%": {
             transform: "rotate(360deg)",
           },
+          float: {
+            "0%": { transform: "translate(0, 0)", opacity: "1" },
+            "100%": { transform: "translate(-100px, -200px)", opacity: "0" },
+          },
           overlayShow: {
             from: { opacity: "0" },
             to: { opacity: "1" },
+          },
+          "gradient-animation": {
+            "0%, 100%": { backgroundPosition: "0% 50%" },
+            "50%": { backgroundPosition: "100% 50%" },
           },
           contentShow: {
             from: {
@@ -41,9 +49,12 @@ export default {
         },
       },
       animation: {
+        float: "float 5s ease-in-out infinite",
+
         "border-spin": "border-spin 7s linear infinite",
         overlayShow: "overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1)",
         contentShow: "contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "gradient-infinite": "gradient-animation 8s ease infinite",
       },
     },
   },

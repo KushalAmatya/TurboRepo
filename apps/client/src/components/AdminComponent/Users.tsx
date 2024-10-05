@@ -163,6 +163,10 @@ export const Users = () => {
 
   return (
     <>
+      <div>
+        <h2 className="text-2xl mb-6 font-semibold">Users</h2>
+        <h3 className="text-base mb-2">Update Users</h3>
+      </div>
       <table className="w-full border-collapse table-auto">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (

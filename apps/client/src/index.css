@@ -60,3 +60,7 @@
     @apply absolute left-[2px] top-[2px] h-[calc(100%-4px)] w-[calc(100%-4px)] rounded-2xl bg-gradient-to-b from-slate-800 to-slate-900;
   }
 }
+
+.particle {
+  animation: float 5s ease-in-out infinite;
+}
