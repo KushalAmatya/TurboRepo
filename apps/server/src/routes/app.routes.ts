@@ -1,6 +1,7 @@
 import express from "express";
 import {
   addProject,
+  addTech,
   deleteUser,
   getProjects,
   getUsers,
@@ -24,4 +25,5 @@ appRouter.get("/getprojects", isAuth, getProjects);
 appRouter.get("/getusers", getUsers, isAuth);
 appRouter.delete("/deleteuser/:id", isAuth, deleteUser);
 appRouter.patch("/updateadmin/:id", isAuth, updateAdmin);
+appRouter.post("/addtech", isAuth, addTech);
 export { appRouter };

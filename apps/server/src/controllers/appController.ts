@@ -1,5 +1,5 @@
 import { Response, Request } from "express";
-import Project from "../model/appModel";
+import Project, { Tech } from "../model/appModel";
 import User from "../model/userModel";
 
 const addProject = async (req: Request, res: Response) => {
@@ -51,4 +51,15 @@ const updateAdmin = async (req: Request, res: Response) => {
   }
 };
 
-export { addProject, getUsers, deleteUser, updateAdmin, getProjects };
+const addTech = async (req: Request, res: Response) => {
+  const { name } = req.body;
+  try {
+    const tech = new Tech({ name });
+    await tech.save();
+    res.status(201).json(tech);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+export { addProject, getUsers, deleteUser, updateAdmin, getProjects, addTech };

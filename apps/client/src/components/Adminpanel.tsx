@@ -5,6 +5,7 @@ import { Dashboard } from "./AdminComponent/Dashboard";
 import { Users } from "./AdminComponent/Users";
 import { Products } from "./AdminComponent/Products";
 import { Setting } from "./AdminComponent/Setting";
+import { Techstack } from "./AdminComponent/Techstack";
 
 const Sidebar = ({
   items,
@@ -57,6 +58,8 @@ const MainContent = ({ selectedItem }: { selectedItem: string }) => {
     switch (selectedItem) {
       case "Dashboard":
         return <Dashboard />;
+      case "Techstack":
+        return <Techstack />;
       case "Users":
         return <Users />;
       case "Products":
@@ -84,7 +87,13 @@ export const Adminpanel = () => {
   const { theme, setTheme } = themeStore((state) => state);
   const [selectedItem, setSelectedItem] = useState("Dashboard");
 
-  const sidebarItems = ["Dashboard", "Users", "Products", "Settings"];
+  const sidebarItems = [
+    "Dashboard",
+    "Techstack",
+    "Users",
+    "Products",
+    "Settings",
+  ];
 
   return (
     <div

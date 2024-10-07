@@ -12,6 +12,11 @@ const projectSchema = new Schema({
   image: { type: String, required: true },
 });
 
+const TechSchema = new Schema({
+  name: { type: String, required: true },
+});
+
+export const Tech = mongoose.model("Tech", TechSchema);
 const Project = mongoose.model<IProject>("Project", projectSchema);
 
 export default Project;
