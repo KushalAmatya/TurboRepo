@@ -1,18 +1,17 @@
 import { Toggle } from "@radix-ui/react-toggle";
-// import { Avatar } from "@radix-ui/react-avatar";
 import { Link } from "react-router-dom";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { themeStore } from "../utils/themeStore";
 import { useEffect, useState } from "react";
-
+import { Logo } from "./HomeComponent/Logo";
 export const Navbar = () => {
   const { theme, setTheme } = themeStore((state) => state);
-  const [showNav, setShowNav] = useState(false);
+  const [showNav, setShowNav] = useState(true);
   const handleScroll = () => {
     if (window.scrollY > 50) {
-      setShowNav(true);
-    } else {
       setShowNav(false);
+    } else {
+      setShowNav(true);
     }
   };
   useEffect(() => {
@@ -23,7 +22,7 @@ export const Navbar = () => {
   }, []);
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 w-full p-4 transition-all duration-200 ${!showNav ? "bg-gray-3" : "bg-transparent"} text-slate-12`}
+      className={`fixed top-0 left-0 right-0 z-50 w-full p-4 transition-all duration-200 ${showNav ? "bg-gray-3 text-slate-12" : "bg-transparent sm:text-slate-12 text-transparent"} `}
     >
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center space-x-4">
@@ -33,21 +32,18 @@ export const Navbar = () => {
               "text-2xl font-bold tracking-wider hover:text-indigo-4 transition-colors"
             }
           >
-            logo
+            <Logo />
           </Link>
         </div>
 
         <div className="flex space-x-6 items-center">
-          <Link
-            to="/features"
-            className="hover:text-indigo-4 transition-colors"
-          >
+          <Link to="/" className="hover:text-indigo-4 transition-colors">
             Projects
           </Link>
-          <Link to="/pricing" className="hover:text-indigo-4 transition-colors">
-            Contact Me
+          <Link to="" className="hover:text-indigo-4 transition-colors">
+            Contact
           </Link>
-          <Link to="/about" className="hover:text-indigo-4 transition-colors">
+          <Link to="/" className="hover:text-indigo-4 transition-colors">
             About
           </Link>
         </div>
@@ -56,9 +52,7 @@ export const Navbar = () => {
           <Toggle
             pressed={theme}
             onPressedChange={setTheme}
-            className={
-              "p-2 rounded-full  text-gray-12 bg-gray-1 hover:bg-indigo-4 transition-all"
-            }
+            className={`p-2 rounded-full  ${showNav && "hover:bg-slate-1 cursor-pointer"} cursor-default  transition-all`}
           >
             {theme ? <MoonIcon /> : <SunIcon />}
           </Toggle>

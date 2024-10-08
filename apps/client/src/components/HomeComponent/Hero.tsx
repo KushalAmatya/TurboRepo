@@ -2,8 +2,8 @@ export const Hero = () => {
   return (
     <>
       <div className="fixed inset-0 bg-blackA6 pointer-events-none " />
-      <div className="flex gap-3">
-        <div className="h-[300px] max-h-[85vh] w-[90vw] max-w-[450px]  rounded-md bg-slate-2 p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] pointer-events-auto">
+      <div className="sm:flex-row items-center gap-3 flex flex-col ">
+        <div className="h-[40dvh] max-h-[85dvh] w-[90dvw] max-w-[70dvh]  rounded-md bg-slate-2 p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] pointer-events-auto flex flex-col gap-4">
           <div className="flex flex-wrap items-center gap-7">
             <div className="inline-flex h-[65px] w-[65px] items-center justify-center rounded-full bg-gray-2">
               <img
@@ -17,12 +17,12 @@ export const Hero = () => {
             </span>
           </div>
 
-          <div className="py-4 ">
+          <div className="">
             <div>Full Stack Developer</div>
             <p>Kathmandu, Nepal</p>
           </div>
         </div>
-        <div className="h-[300px] max-h-[85vh] w-[90vw] max-w-[450px] rounded-md bg-slate-2 p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] pointer-events-auto">
+        <div className="h-[40dvh] max-h-[85dvh] w-[90dvw] max-w-[70dvh] rounded-md bg-slate-2 p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] pointer-events-auto">
           <div className="flex flex-wrap items-center justify-center gap-7 text-[20px] text-violet-9 font-medium pt-3">
             Tech Stack
           </div>
