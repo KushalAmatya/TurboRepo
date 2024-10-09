@@ -81,17 +81,22 @@ export const Login = () => {
                 type="text"
                 {...register("email")}
                 placeholder="Email"
-                className="w-[300px] h-10 bg-slate-800 border-2 border-white rounded-lg text-white p-2 mt-4"
+                tabIndex={0}
+                className="w-[300px]  h-10 bg-slate-800 border-2 border-white rounded-lg text-white p-2 mt-4"
               />
               <input
                 type="password"
                 {...register("password")}
+                tabIndex={0}
                 placeholder="Password"
                 className="w-[300px] h-10 bg-slate-800 border-2 border-white rounded-lg text-white p-2 mt-4"
               />
             </div>
             <div className="flex flex-col items-center gap-2">
-              <button className="w-[300px] h-10 bg-slate-800 border-2 border-white rounded-lg text-white p-2 mt-4 hover:border-slate-900 hover:bg-slate-500 transition-colors duration-200">
+              <button
+                tabIndex={1}
+                className="w-[300px] h-10 bg-slate-800 border-2 border-white rounded-lg text-white p-2 mt-4 hover:border-slate-900 hover:bg-slate-500 transition-colors duration-200"
+              >
                 Login
               </button>
               <p className="flex gap-2 text-base">

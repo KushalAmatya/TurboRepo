@@ -20,9 +20,9 @@ appRouter.post(
   validateData(projectSchema),
   addProject
 );
-appRouter.get("/getprojects", isAuth, getProjects);
+appRouter.get("/getprojects", getProjects);
 
-appRouter.get("/getusers", getUsers, isAuth);
+appRouter.get("/getusers", isAuth, getUsers);
 appRouter.delete("/deleteuser/:id", isAuth, deleteUser);
 appRouter.patch("/updateadmin/:id", isAuth, updateAdmin);
 appRouter.post("/addtech", isAuth, addTech);
