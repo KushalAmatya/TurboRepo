@@ -1,7 +1,7 @@
 import { Response, Request } from "express";
-import Project, { Tech } from "../model/appModel";
+import Project, { Contact, Tech } from "../model/appModel";
 import User from "../model/userModel";
-
+import nodemailer from "nodemailer";
 const addProject = async (req: Request, res: Response) => {
   const { name, description } = req.body;
   try {
@@ -62,4 +62,49 @@ const addTech = async (req: Request, res: Response) => {
   }
 };
 
-export { addProject, getUsers, deleteUser, updateAdmin, getProjects, addTech };
+const addContact = async (req: Request, res: Response) => {
+  const { name, email, message } = req.body;
+
+  try {
+    const contact = new Contact({ name, email, message });
+    await contact.save();
+
+    // Setup Nodemailer transporter
+    const transporter = nodemailer.createTransport({
+      service: "gmail", // Use your email provider (e.g., Gmail, Outlook, etc.)
+      auth: {
+        user: process.env.EMAIL_USER, // Your email address (ensure it's stored in .env for security)
+        pass: process.env.EMAIL_PASS, // Your email password or app-specific password if using Gmail
+      },
+    });
+
+    // Define the email content
+    const mailOptions = {
+      from: email, // Sender's email (from the form)
+      to: process.env.MY_EMAIL, // Your email address (stored in .env)
+      subject: "New Contact Form Submission",
+      html: `
+        <h3>New Contact Form Submission</h3>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Message:</strong> ${message}</p>
+      `,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.status(201).json(contact);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+export {
+  addProject,
+  getUsers,
+  deleteUser,
+  updateAdmin,
+  getProjects,
+  addTech,
+  addContact,
+};

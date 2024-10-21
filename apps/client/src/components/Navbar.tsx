@@ -37,7 +37,9 @@ export const Navbar = () => {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 w-full p-4 transition-all duration-200 ${
-        showNav ? "bg-gray-3 text-slate-12" : "bg-transparent  text-transparent"
+        showNav
+          ? "bg-gray-3 text-slate-12"
+          : "bg-transparent  text-transparent "
       }`}
     >
       <div className="container mx-auto flex justify-between items-center">
@@ -51,15 +53,15 @@ export const Navbar = () => {
         </div>
 
         <div className="hidden sm:flex space-x-6 items-center">
-          <Link to="/" className="hover:text-indigo-4 transition-colors">
+          <a href="#projects" className="hover:text-indigo-4 transition-colors">
             Projects
-          </Link>
-          <Link to="" className="hover:text-indigo-4 transition-colors">
+          </a>
+          <a href="#contact" className="hover:text-indigo-4 transition-colors">
             Contact
-          </Link>
-          <Link to="/" className="hover:text-indigo-4 transition-colors">
+          </a>
+          <a href="/" className="hover:text-indigo-4 transition-colors">
             About
-          </Link>
+          </a>
         </div>
 
         <div className="flex items-center space-x-6">
