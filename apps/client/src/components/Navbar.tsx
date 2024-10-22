@@ -53,13 +53,22 @@ export const Navbar = () => {
         </div>
 
         <div className="hidden sm:flex space-x-6 items-center">
-          <a href="#projects" className="hover:text-indigo-4 transition-colors">
+          <a
+            href="#projects"
+            className={`${showNav && "hover:text-indigo-4 cursor-pointer"} cursor-default transition-colors`}
+          >
             Projects
           </a>
-          <a href="#contact" className="hover:text-indigo-4 transition-colors">
+          <a
+            href="#contact"
+            className={`${showNav && "hover:text-indigo-4 cursor-pointer"} cursor-default  transition-colors`}
+          >
             Contact
           </a>
-          <a href="/" className="hover:text-indigo-4 transition-colors">
+          <a
+            href="/"
+            className={`${showNav && "hover:text-indigo-4 cursor-pointer"} cursor-default transition-colors`}
+          >
             About
           </a>
         </div>

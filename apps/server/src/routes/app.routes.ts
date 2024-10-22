@@ -4,7 +4,10 @@ import {
   addProject,
   addTech,
   deleteUser,
+  getMessageCount,
+  getProjectCount,
   getProjects,
+  getUserCount,
   getUsers,
   updateAdmin,
 } from "../controllers/appController";
@@ -28,4 +31,7 @@ appRouter.delete("/deleteuser/:id", isAuth, deleteUser);
 appRouter.patch("/updateadmin/:id", isAuth, updateAdmin);
 appRouter.post("/addtech", isAuth, addTech);
 appRouter.post("/addcontact", addContact, validateData(contactSchema));
+appRouter.get("/getmessagecount", getMessageCount);
+appRouter.get("/getusercount", isAuth, getUserCount);
+appRouter.get("/getprojectcount", getProjectCount);
 export { appRouter };

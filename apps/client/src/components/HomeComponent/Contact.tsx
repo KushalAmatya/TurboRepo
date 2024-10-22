@@ -1,11 +1,24 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Contacttype, contactSchema } from "../../schema/contactSchema";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import toast from "react-hot-toast";
+import { motion, useInView } from "framer-motion";
 import { API } from "../../utils/baseAxios";
 
 export const Contact = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref);
+  const contactVariant = {
+    hidden: { opacity: 0, x: -200 },
+    show: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 1,
+      },
+    },
+  };
   const {
     register,
     handleSubmit,
@@ -66,7 +79,13 @@ export const Contact = () => {
   return (
     <div className="flex flex-col gap-4" id="contact">
       <h1 className="text-3xl font-bold mb-6 text-center">Contact Us</h1>
-      <div className="min-w-[1000px] mx-auto p-10 bg-slate-3 shadow-xl rounded-lg">
+      <motion.div
+        ref={ref}
+        variants={contactVariant}
+        initial="hidden"
+        animate={isInView ? "show" : "hidden"}
+        className="min-w-[1000px] mx-auto p-10 bg-slate-3 shadow-xl rounded-lg"
+      >
         <form onSubmit={handleSubmit(ContactSubmit)} className="space-y-6">
           <div>
             <input
@@ -104,7 +123,7 @@ export const Contact = () => {
             Submit
           </button>
         </form>
-      </div>
+      </motion.div>
     </div>
   );
 };

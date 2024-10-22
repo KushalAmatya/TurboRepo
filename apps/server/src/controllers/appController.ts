@@ -69,19 +69,17 @@ const addContact = async (req: Request, res: Response) => {
     const contact = new Contact({ name, email, message });
     await contact.save();
 
-    // Setup Nodemailer transporter
     const transporter = nodemailer.createTransport({
-      service: "gmail", // Use your email provider (e.g., Gmail, Outlook, etc.)
+      service: "gmail",
       auth: {
-        user: process.env.EMAIL_USER, // Your email address (ensure it's stored in .env for security)
-        pass: process.env.EMAIL_PASS, // Your email password or app-specific password if using Gmail
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
     });
 
-    // Define the email content
     const mailOptions = {
-      from: email, // Sender's email (from the form)
-      to: process.env.MY_EMAIL, // Your email address (stored in .env)
+      from: email,
+      to: process.env.MY_EMAIL,
       subject: "New Contact Form Submission",
       html: `
         <h3>New Contact Form Submission</h3>
@@ -99,6 +97,33 @@ const addContact = async (req: Request, res: Response) => {
   }
 };
 
+const getMessageCount = async (req: Request, res: Response) => {
+  try {
+    const count = await Contact.countDocuments();
+    res.status(200).json(count);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getUserCount = async (req: Request, res: Response) => {
+  try {
+    const count = await User.countDocuments();
+    const adminCount = await User.countDocuments().where("isAdmin", true);
+    res.status(200).json({ count, adminCount });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+const getProjectCount = async (req: Request, res: Response) => {
+  try {
+    const project = await Project.find().where("isAdmin", true);
+    res.status(200).json(project);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 export {
   addProject,
   getUsers,
@@ -107,4 +132,7 @@ export {
   getProjects,
   addTech,
   addContact,
+  getMessageCount,
+  getUserCount,
+  getProjectCount,
 };
