@@ -9,17 +9,21 @@ export const Adminpiechart = () => {
   const [userCount, setUserCount] = useState(0);
   const [adminCount, setAdminCount] = useState(0);
   useEffect(() => {
-    (async () => {
-      const user = await API.get("/getusercount", {
-        headers: {
-          Authorization: localStorage.getItem("authToken"),
-        },
-      });
-      setUserCount(user.data.count);
-      setAdminCount(user.data.adminCount);
-      console.log("ssss", userCount);
-      console.log("asdsda", adminCount);
-    })();
+    try {
+      (async () => {
+        const user = await API.get("/getusercount", {
+          headers: {
+            Authorization: localStorage.getItem("authToken"),
+          },
+        });
+        setUserCount(user.data.count);
+        setAdminCount(user.data.adminCount);
+        console.log("ssss", userCount);
+        console.log("asdsda", adminCount);
+      })();
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
   return (
     <div className="h-[50dvh]  flex justify-center">
@@ -30,8 +34,8 @@ export const Adminpiechart = () => {
             {
               label: "Users",
               data: [userCount, adminCount],
-              backgroundColor: ["#FF6384", "#36A2EB"],
-              hoverBackgroundColor: ["#FF6384", "#36A2EB"],
+              backgroundColor: ["#292825", "#94938f"],
+              hoverBackgroundColor: ["#403d34", "#b5b4ae"],
             },
           ],
         }}

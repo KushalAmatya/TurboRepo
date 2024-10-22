@@ -14,7 +14,7 @@ export const Dashboard = () => {
             Authorization: localStorage.getItem("authToken"),
           },
         });
-        setUserCount(user.data);
+        setUserCount(user.data.count);
 
         console.log(userCount);
       } catch (error) {

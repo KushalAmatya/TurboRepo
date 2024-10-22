@@ -11,6 +11,7 @@ import { Users } from "./AdminComponent/Users";
 import { Products } from "./AdminComponent/Products";
 import { Setting } from "./AdminComponent/Setting";
 import { Techstack } from "./AdminComponent/Techstack";
+import { Chatmessage } from "./AdminComponent/Chatmessage";
 
 const Sidebar = ({
   items,
@@ -128,7 +129,7 @@ export const Adminpanel = () => {
 
   return (
     <div
-      className={`flex transition-colors duration-200 text-mauve-12 ${
+      className={`relative flex transition-colors duration-200 text-mauve-12 ${
         theme ? "dark" : ""
       }`}
     >
@@ -148,6 +149,9 @@ export const Adminpanel = () => {
           />
           <MainContent selectedItem={selectedItem} />
         </div>
+      </div>
+      <div className="absolute bottom-0 right-0 -translate-x-4 -translate-y-2">
+        <Chatmessage />
       </div>
     </div>
   );

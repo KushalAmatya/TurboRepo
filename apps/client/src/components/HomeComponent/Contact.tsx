@@ -84,7 +84,7 @@ export const Contact = () => {
         variants={contactVariant}
         initial="hidden"
         animate={isInView ? "show" : "hidden"}
-        className="min-w-[1000px] mx-auto p-10 bg-slate-3 shadow-xl rounded-lg"
+        className="sm:min-w-[1000px] min-w-[400px] mx-auto p-10 bg-slate-3 shadow-xl rounded-lg"
       >
         <form onSubmit={handleSubmit(ContactSubmit)} className="space-y-6">
           <div>

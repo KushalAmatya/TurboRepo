@@ -27,7 +27,7 @@ export const Users = () => {
   const columns = [
     columnHelper.accessor("name", {
       header: "Name",
-      cell: (info) => <div>{info.getValue()}</div>,
+      cell: (info) => <div className="capitalize">{info.getValue()}</div>,
     }),
     columnHelper.accessor("_id", {
       header: "ID",

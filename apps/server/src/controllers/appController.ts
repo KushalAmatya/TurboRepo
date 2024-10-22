@@ -117,13 +117,39 @@ const getUserCount = async (req: Request, res: Response) => {
 };
 const getProjectCount = async (req: Request, res: Response) => {
   try {
-    const project = await Project.find().where("isAdmin", true);
+    const project = await Project.countDocuments();
     res.status(200).json(project);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
+const getMessage = async (req: Request, res: Response) => {
+  try {
+    const message = await Contact.find();
+    res.status(200).json(message);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const deleteMessage = async (req: Request, res: Response) => {
+  try {
+    await Contact.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: "Message deleted" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getSelectedMessage = async (req: Request, res: Response) => {
+  try {
+    const message = await Contact.findById(req.params.id);
+    res.status(200).json(message);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 export {
   addProject,
   getUsers,
@@ -135,4 +161,7 @@ export {
   getMessageCount,
   getUserCount,
   getProjectCount,
+  getMessage,
+  deleteMessage,
+  getSelectedMessage,
 };

@@ -3,10 +3,13 @@ import {
   addContact,
   addProject,
   addTech,
+  deleteMessage,
   deleteUser,
+  getMessage,
   getMessageCount,
   getProjectCount,
   getProjects,
+  getSelectedMessage,
   getUserCount,
   getUsers,
   updateAdmin,
@@ -34,4 +37,7 @@ appRouter.post("/addcontact", addContact, validateData(contactSchema));
 appRouter.get("/getmessagecount", getMessageCount);
 appRouter.get("/getusercount", isAuth, getUserCount);
 appRouter.get("/getprojectcount", getProjectCount);
+appRouter.get("/getmessage", isAuth, getMessage);
+appRouter.delete("/deletemessage/:id", isAuth, deleteMessage);
+appRouter.get("/getselectedmessage/:id", isAuth, getSelectedMessage);
 export { appRouter };
