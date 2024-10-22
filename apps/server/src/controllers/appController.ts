@@ -150,6 +150,35 @@ const getSelectedMessage = async (req: Request, res: Response) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+const sendMessage = async (req: Request, res: Response) => {
+  const { message, email, name } = req.body;
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.MY_EMAIL,
+      to: email,
+      subject: "Reply from Kushal's Portfolio",
+      html: `
+        <h3>Hi ${name}/h3>
+        <p>${message}</p>
+      `,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.status(201).json({ message: "Message sent" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 export {
   addProject,
   getUsers,

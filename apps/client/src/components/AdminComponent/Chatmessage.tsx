@@ -7,6 +7,7 @@ import {
 import { useEffect } from "react";
 import * as Popover from "@radix-ui/react-popover";
 import { useMessageStore } from "../../utils/useMessageStore";
+import { ReplyDialog } from "./ReplyDialog";
 
 export const Chatmessage = () => {
   const { messages, fetchMessages, deleteMessage } = useMessageStore();
@@ -57,9 +58,8 @@ export const Chatmessage = () => {
                           >
                             Delete
                           </button>
-                          <button className="py-1 px-2 text-sm text-gray-700 hover:bg-gray-100 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
-                            Reply
-                          </button>
+
+                          <ReplyDialog _id={msg._id} />
                         </div>
                       </Popover.Content>
                     </Popover.Root>
