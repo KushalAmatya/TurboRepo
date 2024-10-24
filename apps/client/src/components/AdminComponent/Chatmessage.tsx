@@ -26,7 +26,7 @@ export const Chatmessage = () => {
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-blackA6 data-[state=open]:animate-overlayShow" />
         <Dialog.Content className="fixed bottom-0 right-0 max-h-[50dvh] w-[90dvw] max-w-[350px] -translate-x-4 -translate-y-2 rounded-md bg-slate-1 p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] data-[state=open]:animate-contentShow">
-          <Dialog.Title className="m-0 text-[17px] font-medium text-mauve12 pb-3">
+          <Dialog.Title className="m-0 text-[22px] font-medium text-mauve12 pb-3">
             Messages
           </Dialog.Title>
           <div className="overflow-auto h-[40dvh]">

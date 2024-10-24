@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Contacttype, contactSchema } from "../../schema/contactSchema";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { motion, useInView } from "framer-motion";
 import { API } from "../../utils/baseAxios";
@@ -9,8 +9,10 @@ import { API } from "../../utils/baseAxios";
 export const Contact = () => {
   const ref = useRef(null);
   const isInView = useInView(ref);
+  const [loading, setLoading] = useState(false);
+
   const contactVariant = {
-    hidden: { opacity: 0, x: -200 },
+    hidden: { opacity: 0, x: -100 },
     show: {
       opacity: 1,
       x: 0,
@@ -19,6 +21,7 @@ export const Contact = () => {
       },
     },
   };
+
   const {
     register,
     handleSubmit,
@@ -68,11 +71,17 @@ export const Contact = () => {
   }, [errors]);
 
   const ContactSubmit = async (data: Contacttype) => {
-    console.log(data);
-    const dat = await API.post("/addcontact", data);
-    if (dat.status === 201 || dat.status === 200) {
-      toast.success("Message sent successfully");
-      reset();
+    setLoading(true);
+    try {
+      const response = await API.post("/addcontact", data);
+      if (response.status === 201 || response.status === 200) {
+        toast.success("Message sent successfully");
+        reset();
+      }
+    } catch (error) {
+      toast.error("Failed to send message. Please try again later.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -119,8 +128,9 @@ export const Contact = () => {
           <button
             type="submit"
             className="w-full bg-indigo-5 text-slate-12 text-lg py-3 rounded-lg hover:bg-indigo-6 transition duration-300"
+            disabled={loading}
           >
-            Submit
+            {loading ? "Sending..." : "Submit"}
           </button>
         </form>
       </motion.div>

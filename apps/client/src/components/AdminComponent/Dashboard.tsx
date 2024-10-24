@@ -67,6 +67,9 @@ export const Dashboard = () => {
           </div>
         </div>
         <div className=" !w-full !h-full">
+          <div>
+            <h2 className="text-2xl font-semibold p-4">User Statistics</h2>
+          </div>
           <Adminpiechart />
         </div>
       </div>

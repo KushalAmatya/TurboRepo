@@ -3,6 +3,7 @@ import {
   addContact,
   addProject,
   addTech,
+  changeCurrentUserPassword,
   deleteMessage,
   deleteUser,
   getMessage,
@@ -12,6 +13,7 @@ import {
   getSelectedMessage,
   getUserCount,
   getUsers,
+  sendMessage,
   updateAdmin,
 } from "../controllers/appController";
 import { validateData } from "../middleware/typeValidationMiddleware";
@@ -40,4 +42,6 @@ appRouter.get("/getprojectcount", getProjectCount);
 appRouter.get("/getmessage", isAuth, getMessage);
 appRouter.delete("/deletemessage/:id", isAuth, deleteMessage);
 appRouter.get("/getselectedmessage/:id", isAuth, getSelectedMessage);
+appRouter.post("/sendmessage", isAuth, sendMessage);
+appRouter.post("/changepassword", isAuth, changeCurrentUserPassword);
 export { appRouter };

@@ -2,6 +2,9 @@ import { Response, Request } from "express";
 import Project, { Contact, Tech } from "../model/appModel";
 import User from "../model/userModel";
 import nodemailer from "nodemailer";
+import { CustomRequest } from "../middleware/isAuthMiddleware";
+import bcrypt from "bcrypt";
+
 const addProject = async (req: Request, res: Response) => {
   const { name, description } = req.body;
   try {
@@ -152,7 +155,9 @@ const getSelectedMessage = async (req: Request, res: Response) => {
 };
 
 const sendMessage = async (req: Request, res: Response) => {
-  const { message, email, name } = req.body;
+  console.log(req.body);
+
+  const { message, touser } = req.body;
   try {
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -164,10 +169,10 @@ const sendMessage = async (req: Request, res: Response) => {
 
     const mailOptions = {
       from: process.env.MY_EMAIL,
-      to: email,
+      to: touser,
       subject: "Reply from Kushal's Portfolio",
       html: `
-        <h3>Hi ${name}/h3>
+        <h3>Hi ${touser}/h3>
         <p>${message}</p>
       `,
     };
@@ -178,6 +183,26 @@ const sendMessage = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
+};
+
+const changeCurrentUserPassword = async (req: Request, res: Response) => {
+  const { oldpass, newpass } = req.body;
+  const currentUser = req.user!.userId;
+  console.log(currentUser);
+  const user = await User.findById(currentUser);
+  if (!user) {
+    return res.status(400).json({ error: "User not found" });
+  }
+  if (!bcrypt.compareSync(oldpass, user.password)) {
+    return res.status(400).json({ error: "Incorrect password" });
+  }
+
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(newpass, salt);
+
+  user.password = hashedPassword;
+  await user.save();
+  res.status(200).json({ message: "Password updated successfully" });
 };
 export {
   addProject,
@@ -193,4 +218,6 @@ export {
   getMessage,
   deleteMessage,
   getSelectedMessage,
+  sendMessage,
+  changeCurrentUserPassword,
 };

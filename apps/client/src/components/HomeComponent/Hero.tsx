@@ -65,7 +65,6 @@ export const Hero = () => {
           </div>
         </motion.div>
 
-        {/* Tech Stack Card */}
         <motion.div
           variants={stackVariants}
           initial="hidden"

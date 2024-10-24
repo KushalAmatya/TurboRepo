@@ -19,9 +19,11 @@ type UserType = {
 export const Users = () => {
   const token = localStorage.getItem("authToken");
   const { fetchUsers, users } = useUserStore();
+
   useEffect(() => {
     fetchUsers();
   }, []);
+
   const columnHelper = createColumnHelper<UserType>();
 
   const columns = [
@@ -31,11 +33,13 @@ export const Users = () => {
     }),
     columnHelper.accessor("_id", {
       header: "ID",
-      cell: (info) => <div>{info.row.original._id}</div>,
+      cell: (info) => (
+        <div className="overflow-auto">{info.row.original._id}</div>
+      ),
     }),
     columnHelper.accessor("email", {
       header: "Email",
-      cell: (info) => <div>{info.getValue()}</div>,
+      cell: (info) => <div className="overflow-auto">{info.getValue()}</div>,
     }),
     columnHelper.accessor("isAdmin", {
       header: "IsAdmin",
@@ -81,10 +85,10 @@ export const Users = () => {
                             },
                           }
                         );
-                        console.log("User deleted");
+                        console.log("User updated");
                         fetchUsers();
                       } catch (error) {
-                        console.error("Error deleting user:", error);
+                        console.error("Error updating user:", error);
                       }
                     }}
                   >
@@ -155,6 +159,7 @@ export const Users = () => {
       },
     }),
   ];
+
   const table = useReactTable({
     data: users,
     columns,
@@ -162,46 +167,48 @@ export const Users = () => {
   });
 
   return (
-    <>
-      <div>
-        <h2 className="text-2xl mb-6 font-semibold">Users</h2>
-        <h3 className="text-base mb-2">Update Users</h3>
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 className="text-2xl mb-6 font-semibold">Users</h2>
+      <h3 className="text-base mb-2">Update Users</h3>
+      <div className="overflow-x-auto">
+        {" "}
+        {/* Allow horizontal scroll */}
+        <table className="w-full border-collapse table-auto min-w-full sm:min-w-[600px]">
+          <thead>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <th
+                    key={header.id}
+                    className="border border-gray-8 px-4 py-2 bg-gray-1 text-center min-w-[150px] max-w-[200px]"
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody>
+            {table.getRowModel().rows.map((row) => (
+              <tr key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <td
+                    key={cell.id}
+                    className="border border-gray-9 px-4 py-2 text-center min-w-[150px] max-w-[200px]"
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-      <table className="w-full border-collapse table-auto">
-        <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th
-                  key={header.id}
-                  className="border border-gray-8 px-4 py-2 bg-gray-1 text-center min-w-[150px] max-w-[200px]"
-                >
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <td
-                  key={cell.id}
-                  className="border border-gray-9 px-4 py-2 text-center min-w-[150px] max-w-[200px]"
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </>
+    </div>
   );
 };

@@ -129,7 +129,7 @@ export const Adminpanel = () => {
 
   return (
     <div
-      className={`relative flex transition-colors duration-200 text-mauve-12 ${
+      className={`relative flex transition-colors duration-500 text-mauve-12 ${
         theme ? "dark" : ""
       }`}
     >
@@ -140,7 +140,7 @@ export const Adminpanel = () => {
         toggleSidebar={toggleSidebar}
       />
 
-      <div className="flex-1 flex flex-col bg-mauve-2 min-h-screen h-screen overflow-hidden relative">
+      <div className="flex-1 flex flex-col bg-mauve-4 min-h-screen h-screen overflow-hidden relative">
         <div className="flex-1 flex flex-col overflow-y-auto">
           <Header
             theme={theme}

@@ -48,7 +48,7 @@ export const Projects = () => {
         type: "spring",
         stiffness: 50,
         damping: 15,
-        duration: 1,
+        duration: 0.5,
         ease: "easeInOut",
       },
     },

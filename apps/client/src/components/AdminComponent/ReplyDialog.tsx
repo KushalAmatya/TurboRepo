@@ -2,13 +2,14 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import { useMemo, useState } from "react";
 import { API } from "../../utils/baseAxios";
+import toast from "react-hot-toast";
 
 type ReplyProps = {
   _id: string;
 };
 export const ReplyDialog = ({ _id }: ReplyProps) => {
-  console.log(_id);
   const [touser, setTouser] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   useMemo(async () => {
     const data = await API.get(`/getselectedmessage/${_id}`, {
       headers: {
@@ -18,6 +19,32 @@ export const ReplyDialog = ({ _id }: ReplyProps) => {
     setTouser(data.data.email);
     console.log(data);
   }, []);
+  const handleSend = async () => {
+    const message = document.querySelector("textarea")?.value;
+    if (message) {
+      try {
+        setIsLoading(true);
+        await API.post(
+          "/sendmessage",
+          { message, touser },
+          {
+            headers: {
+              Authorization: localStorage.getItem("authToken"),
+            },
+          }
+        );
+        toast.success("Message sent successfully", {
+          duration: 3000,
+          position: "bottom-center",
+        });
+      } catch (error) {
+        console.error("Error sending message:", error);
+      } finally {
+        setIsLoading(false);
+        document.querySelector("textarea")!.value = "";
+      }
+    }
+  };
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
@@ -40,8 +67,12 @@ export const ReplyDialog = ({ _id }: ReplyProps) => {
               placeholder="Enter your reply here"
             ></textarea>
           </fieldset>
-          <button className="w-full bg-indigo-5 text-slate-12 text-lg py-3 rounded-lg hover:bg-indigo-6 transition duration-300 mt-4">
-            Send
+          <button
+            onClick={handleSend}
+            disabled={isLoading}
+            className="w-full bg-indigo-5 text-slate-12 text-lg py-3 rounded-lg hover:bg-indigo-6 transition duration-300 mt-4"
+          >
+            {isLoading ? "Sending..." : "Send"}
           </button>
 
           <Dialog.Close asChild>

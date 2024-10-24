@@ -18,15 +18,13 @@ export const Adminpiechart = () => {
         });
         setUserCount(user.data.count);
         setAdminCount(user.data.adminCount);
-        console.log("ssss", userCount);
-        console.log("asdsda", adminCount);
       })();
     } catch (error) {
       console.log(error);
     }
   }, []);
   return (
-    <div className="h-[50dvh]  flex justify-center">
+    <div className="h-[40dvh]  flex justify-center">
       <Doughnut
         data={{
           labels: ["Users", "Admins"],
